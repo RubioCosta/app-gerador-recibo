@@ -29,9 +29,9 @@
         "expo-splash-screen",
         {
           "image": "./src/assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 150,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#60a5fa"
         }
       ]
     ],
@@ -45,10 +45,6 @@
       "eas": {
         "projectId": "3384fa91-c77e-45a8-9776-513117887618"
       }
-    },
-    "androidStatusBar": {
-      "backgroundColor": "#ffffff",
-      "barStyle": "light-content"
     }
   }
 }
