@@ -1,8 +1,8 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Foundation from '@expo/vector-icons/Foundation';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'; 
-import { Platform } from 'react-native';
 
 // Pages
 import CheckPayment from '../CheckPayment';
@@ -19,6 +19,7 @@ export default function Home() {
   return (
     <Layout>
       <Tab.Navigator
+        initialRouteName='CheckPayment'
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: '#60a5fa',
@@ -41,17 +42,6 @@ export default function Home() {
         }}
       >
         <Tab.Screen 
-          name="GenerateReceipt" 
-          component={GenerateReceipt}
-          options={{ 
-            title: 'Recibos',
-            tabBarIcon: ({ focused }) => (
-              <FontAwesome6 name="file-arrow-down" size={22} color={focused ? '#60a5fa' : '#ffffff'} />
-            ),
-            tabBarLabel: 'Recibos'
-          }}
-        />
-        <Tab.Screen 
           name="CheckPayment" 
           component={CheckPayment}
           options={{ 
@@ -63,14 +53,25 @@ export default function Home() {
           }}
         />
         <Tab.Screen 
+          name="GenerateReceipt" 
+          component={GenerateReceipt}
+          options={{ 
+            title: 'Recibos',
+            tabBarIcon: ({ focused }) => (
+              <FontAwesome6 name="file-arrow-down" size={22} color={focused ? '#60a5fa' : '#ffffff'} />
+            ),
+            tabBarLabel: 'Recibos'
+          }}
+        />
+        <Tab.Screen 
           name="UserConfiguration" 
           component={UserConfiguration}
           options={{ 
             title: 'Configuração',
             tabBarIcon: ({ focused }) => (
-              <FontAwesome6 name="gears" size={22} color={focused ? '#60a5fa' : '#ffffff'} />
+              <Ionicons name="create" size={22} color={focused ? '#60a5fa' : '#ffffff'} />
             ),
-            tabBarLabel: 'Configuração'
+            tabBarLabel: 'Cadastrar'
           }}
         />
         <Tab.Screen 

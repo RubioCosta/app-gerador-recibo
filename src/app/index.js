@@ -6,7 +6,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 
 // Components
 import { Input } from '../components/Inputs';
-import { Button } from '../components/buttons';
+import { Button } from '../components/Buttons';
 
 // Assets
 import SchoolBus from '../assets/images/image-login.png';
@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <View className='flex-1 bg-blue-400 pt-12'>
-      <StatusBar backgroundColor='#60a5fa' />
+      <StatusBar backgroundColor='#60a5fa' style='light' />
       {loading ? (
         <View className='flex-1 items-center justify-center'>
           <Image
