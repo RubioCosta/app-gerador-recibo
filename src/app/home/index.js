@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <Layout>
       <Tab.Navigator
-        initialRouteName='CheckPayment'
+        initialRouteName='GenerateReceipt'
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: '#60a5fa',

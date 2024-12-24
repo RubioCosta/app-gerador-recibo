@@ -1,10 +1,15 @@
 module.exports = `
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
   .main {
-    display: flex;
-    flex-wrap: wrap;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     width: 29.7cm;
-    min-height: 20.99cm;
-    backgroud-color: #000
+    min-height: 21cm;
   }
 
   .main input {
@@ -12,13 +17,12 @@ module.exports = `
   }
 
   .recibo {
-    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 14.80cm;
-    height: 10cm;
-    margin-top: 13px;
+    width: 100%;
+    height: 10.5cm;
+    box-sizing: border-box;
   }
 
   .recibo label {

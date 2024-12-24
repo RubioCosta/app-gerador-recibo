@@ -6,14 +6,20 @@ import { shareAsync } from 'expo-sharing';
 // HTML template for the receipt
 import { generateTemplateReceipt } from './templateReceipt';
 
+// Comnponents
+import { DateInput } from '../../components/Inputs';
+
 export default function GenerateReceipt() {
-  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
 
   async function generateReceipt() {
     const html = generateTemplateReceipt();
+
     const { uri } = await printToFileAsync({ 
       html, 
       base64: false,
+      width: 842,
+      height: 595,
     }) ?? {};
 
     if (!uri) return;
@@ -21,12 +27,13 @@ export default function GenerateReceipt() {
     await shareAsync(uri);
   }
 
+  console.log("Date: ", date);
+
   return (
     <View>
-      <TextInput
-        placeholder="Enter your name"
-        value={name}
-        onChangeText={setName}
+      <DateInput
+        value={date}
+        onChange={(e) => setDate(e.date)}
       />
       <Button
         title="Generate Receipt"

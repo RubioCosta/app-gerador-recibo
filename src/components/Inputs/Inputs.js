@@ -1,4 +1,5 @@
-import { TextInput, Text, Switch, KeyboardAvoidingView, Platform, View } from 'react-native';
+import { TextInput, Text, Switch, KeyboardAvoidingView, Platform } from 'react-native';
+import { MaskedTextInput } from "react-native-mask-text";
 
 export function Input({ 
   label, 
@@ -76,6 +77,22 @@ export function ToggleInput({
         className='mr-2'
       />
       <Text className='text-black font-semibold'>{placeholder}</Text>
+    </KeyboardAvoidingView>
+  );
+}
+
+export function DateInput({ 
+  value, 
+  onChange, 
+  className = '', 
+}) {
+  return (
+    <KeyboardAvoidingView className={`${className} flex flex-row w-full items-center align-middle`} behavior={`${Platform.OS === 'ios' ? 'padding' : 'height' }`}>
+      <DateTimePicker
+        mode="single"
+        date={new Date()}
+        onChange={onChange}
+      />
     </KeyboardAvoidingView>
   );
 }
