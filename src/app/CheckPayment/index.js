@@ -44,7 +44,7 @@ export default function CheckPayment() {
 
   const filteredUsers = users.filter(user =>
     user.name 
-    && user.name.toLowerCase().includes(search ? search.toLowerCase() : '')
+    && user.name.toLowerCase().includes(search ? String(search).toLowerCase() : '')
   ).sort((a, b) => {
     const aIsPaid = a.paid >= a.value;
     const bIsPaid = b.paid >= b.value;

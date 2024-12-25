@@ -15,10 +15,9 @@ const mockData = [
   }
 ];
 
-export function generateTemplateReceipt() {
+export function generateTemplateReceipt(day, month, year, description, isHalfValue, data) {
   const defaultValue = "------------------------------------#-----------------------------------------"
-  const description = 'Transporte Particular'
-  const descriptionSecond = ''
+  const descriptionSecond = `referente 50% do valor da mensalidade para garantir a vaga em ${Number(year) + 1}`
   let html = `
     <html>
       <head>
@@ -30,7 +29,7 @@ export function generateTemplateReceipt() {
       <div class='main'>
   `
 
-  mockData.forEach((user, index) => {
+  data.forEach((user) => {
     html += `
       <div class='recibo'>
         <div class="area-recibo"">
@@ -42,7 +41,7 @@ export function generateTemplateReceipt() {
             </div>
             <div class="valorN">
                 <label>VALOR:</label>
-                <input type="text" value="${formattedValue(user.month_value)}" readOnly class="browser-default" />
+                <input type="text" value="${formattedValue(isHalfValue ? (user.month_value/2).toFixed(2) : user.month_value)}" readOnly class="browser-default" />
             </div>
           </div>
           <div class="area-recibo-corpo">
@@ -69,11 +68,11 @@ export function generateTemplateReceipt() {
             <div class="area-4">
                 <input class="input-1 browser-default" readOnly type="text" value="jaraguá do sul" />
                 <label>,</label>
-                <input class="input-2 browser-default" readOnly type="text" value={date.slice(0, 2)} />
+                <input class="input-2 browser-default" readOnly type="text" value="${day}" />
                 <label>de</label>
-                <input class="input-3 browser-default" readOnly type="text" value={date.slice(3, 5)} />
+                <input class="input-3 browser-default" readOnly type="text" value="${month}" />
                 <label>de</label>
-                <input class="input-4 browser-default" readOnly type="text" value={date.slice(6, 10)} />
+                <input class="input-4 browser-default" readOnly type="text" value="${year}" />
             </div>
             <div class="area-5">
                 <label>Assinatura</label>

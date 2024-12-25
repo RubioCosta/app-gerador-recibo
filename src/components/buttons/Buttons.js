@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export function Button({ 
@@ -9,6 +9,7 @@ export function Button({
   colorButton = 'bg-blue-900', 
   colorIcon = 'white',
   colorDescription = 'text-white',
+  isLoading = false
 }) {
   return (
     <View className={`w-full ${className}`}>
@@ -18,6 +19,9 @@ export function Button({
       >
         {icon && (
           <FontAwesome6 name={icon} size={15} color={colorIcon} className='mr-2' />
+        )}
+        {isLoading && (
+          <ActivityIndicator size='small' color={colorIcon} style={{ marginRight: '5px' }} />
         )}
         <Text className={`font-semibold text-base ${colorDescription}`}>{description}</Text>
       </TouchableOpacity>

@@ -81,17 +81,28 @@ export function ToggleInput({
   );
 }
 
-export function DateInput({ 
+export function MaskInput({ 
   value, 
   onChange, 
-  className = '', 
+  className = '',
+  mask = '',
+  placeholder = ''
 }) {
   return (
-    <KeyboardAvoidingView className={`${className} flex flex-row w-full items-center align-middle`} behavior={`${Platform.OS === 'ios' ? 'padding' : 'height' }`}>
-      <DateTimePicker
-        mode="single"
-        date={new Date()}
-        onChange={onChange}
+    <KeyboardAvoidingView 
+      className={`${className} flex flex-row items-center align-middle w-full bg-white h-12 pl-2 font-semibold border rounded-lg border-blue-500`} 
+      behavior={`${Platform.OS === 'ios' ? 'padding' : 'height' }`
+    }>
+      <MaskedTextInput
+        mask={mask}
+        value={value}
+        onChangeText={onChange}
+        placeholder={placeholder}
+        style={{
+          border: 'none',
+          outline: 'none',
+          width: '100%'
+        }}
       />
     </KeyboardAvoidingView>
   );
