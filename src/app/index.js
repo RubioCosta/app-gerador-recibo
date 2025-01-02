@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, Linking, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as NavigationBar from 'expo-navigation-bar';
+import Toast from 'react-native-toast-message';
 
 // Components
 import { Input } from '../components/Inputs';
@@ -12,7 +13,12 @@ import { Button } from '../components/Buttons';
 import SchoolBus from '../assets/images/image-login.png';
 import SchoolBusGif from '../assets/gifs/school-bus.gif';
 
+// Context
+import { useAuthContext } from '../context/AuthContext';
+
 export default function App() {
+  const { loginGoogle,  } = useAuthContext();
+
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -23,6 +29,39 @@ export default function App() {
 
   function redirectLinkedin() {
     Linking.openURL('https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav');
+  }
+
+  function showToast(type, typeDescription, description) {
+    Toast.show({
+      type,
+      text1: typeDescription,
+      text2: description,
+      position: 'top',
+      text2Style: {
+        fontSize: 16
+      },
+    });
+  };
+
+  async function handlerLoginGoogle() {
+    try {
+      await loginGoogle();
+      router.push('/home')
+    } catch(error) {
+      showToast('error', 'Aviso', 'Não foi possível efetuar o login!');
+    }
+  }
+
+  async function handlerLogin() {
+    try {
+      if (!email) return showToast('error', 'Aviso', 'Informe o e-mail!');
+      if (!password) return showToast('error', 'Aviso', 'Informe a senha!');
+
+      await login(email, password);
+      router.push('/home')
+    } catch(error) {
+      showToast('error', 'Aviso', 'Não foi possível efetuar o login!');
+    }
   }
 
   useEffect(() => {
@@ -45,7 +84,8 @@ export default function App() {
         <View className='flex-1 items-center justify-center'>
           <Image
             source={SchoolBusGif}
-            style={{ width: 250, height: 250, resizeMode: 'contain', marginLeft: 'auto', marginRight: 'auto' }}
+            resizeMode='contain'
+            style={{ width: 250, height: 250, marginLeft: 'auto', marginRight: 'auto' }}
           />
         </View>
       ) : (
@@ -53,7 +93,8 @@ export default function App() {
           <View className='h-4/5 w-full flex flex-col items-center justify-center'>
             <Image 
               source={SchoolBus}
-              style={{ width: 170, height: 80, resizeMode: 'contain', marginLeft: 'auto', marginRight: 'auto' }}
+              resizeMode='contain'
+              style={{ width: 170, height: 80, marginLeft: 'auto', marginRight: 'auto' }}
             />
             <Input
               className='mb-4 mt-5'
@@ -72,13 +113,13 @@ export default function App() {
             />
             <Button
               description='Entrar'
-              onPress={() => router.push('/home')}
+              onPress={handlerLogin}
               className='mb-4'
             />
             <View className='w-full h-1 bg-blue-500 mb-4'/>
             <Button
               description='Entrar com Google'
-              onPress={() => router.push('/home')}
+              onPress={handlerLoginGoogle}
               icon='google'
               colorButton={'bg-white'}
               colorIcon={'black'}
@@ -90,6 +131,7 @@ export default function App() {
           </View>
         </View>
       )}
+      <Toast />
     </View>
   );
 }

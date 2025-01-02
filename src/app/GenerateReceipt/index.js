@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import Toast from 'react-native-toast-message';
 
 // HTML template for the receipt
-import { generateTemplateReceipt } from './templateReceipt';
+import { generateTemplateReceipt } from '../../components/TemplateReceipt/templateReceipt';
 
 // Comnponents
 import { MaskInput, SecondaryInput, ToggleInput } from '../../components/Inputs';

@@ -1,4 +1,4 @@
-module.exports = `
+const styles = `
   body {
     margin: 0;
     padding: 0;
@@ -335,3 +335,5 @@ module.exports = `
     border-bottom: 1px solid #888484;
   }
 `
+
+export default styles;
