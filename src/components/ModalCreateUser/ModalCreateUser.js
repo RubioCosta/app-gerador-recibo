@@ -1,6 +1,9 @@
 import React from 'react';
 import { Modal, View, Text, Button } from 'react-native';
 
+// Utils
+import { formattedValue } from '../../utils/utils'
+
 export function ModalCreateUser({ isOpen, confirmAction, cancelAction, user = {} }) {
   return (
     <View className="flex-1 justify-center items-cente absolute">
@@ -24,7 +27,7 @@ export function ModalCreateUser({ isOpen, confirmAction, cancelAction, user = {}
                 <Text className='font-semibold'>Telefone: </Text>{user.phone}
               </Text>
               <Text>
-                <Text className='font-semibold'>Valor: </Text>{user.value}
+                <Text className='font-semibold'>Valor: </Text>{formattedValue(user.value)}
               </Text>
             </View>
             <View className="flex-row justify-between w-full mt-5">

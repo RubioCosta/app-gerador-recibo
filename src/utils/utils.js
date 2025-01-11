@@ -1,5 +1,6 @@
 function formattedValue(value) {
-  return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  if (!value) return ''
+  return Number(value).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
 
 module.exports = {

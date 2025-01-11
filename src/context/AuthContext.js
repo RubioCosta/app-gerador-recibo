@@ -41,7 +41,7 @@ export function AuthContextProvider({children}) {
       const response = await auth.signInWithPopup(auth.getAuth(), new auth.GoogleAuthProvider());
       await configureSession(response.user);
     } catch (error) {
-      console.log(error);
+      console.log("Aqui: ", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -68,6 +68,7 @@ export function AuthContextProvider({children}) {
       uid: userData.uid,
       nome: userData.displayName,
       email: userData.email,
+      emailFormatted: userData.email.replace('@', '-at-').replace('.', '-dot-'),
       token,
       provedor: userData.providerData[0]?.providerId,
       imagemUrl: userData.photoURL
@@ -91,7 +92,7 @@ export function AuthContextProvider({children}) {
       manageCookie(true)
       return userFormatted.email
     } else {
-      setUsuario(null)
+      setUser(null)
       manageCookie(false)
       return false
     }

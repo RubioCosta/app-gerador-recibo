@@ -1,30 +1,9 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Linking } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-const users = [
-  { id: '1', name: 'John Doe', school: 'john.doe@example.com', value: 300, active: false, phone: '47999636379' },
-  { id: '2', name: 'Jane Smith', school: 'jane.smith@example.com', value: 150, active: true, phone: '47999636379' },
-  { id: '3', name: 'Carlos Gomez', school: 'carlos.gomez@example.com', value: 200, active: true, phone: '47999636379' },
-  { id: '4', name: 'Alex Silva', school: 'alex.silva@example.com', value: 180, active: true, phone: '47999636379' },
-  { id: '5', name: 'Maria Oliveira', school: 'maria.oliveira@example.com', value: 350, active: false, phone: '47999636379' },
-  { id: '6', name: 'Pedro Souza', school: 'pedro.souza@example.com', value: 100, active: true, phone: '47999636379' },
-  { id: '7', name: 'Luana Pereira', school: 'luana.pereira@example.com', value: 50, active: true, phone: '47999636379' },
-  { id: '8', name: 'Paula Costa', school: 'paula.costa@example.com', value: 80, active: true, phone: '47999636379' },
-  { id: '9', name: 'Ana Lima', school: 'ana.lima@example.com', value: 80, active: true, phone: '47999636379' },
-  { id: '10', name: 'Lucas Santos', school: 'lucas.santos@example.com', value: 80, active: true, phone: '47999636379' },
-  { id: '11', name: 'Carlos Souza', school: 'carlos.souza@example.com', value: 80, active: true, phone: '47999636379' },
-  { id: '12', name: 'Pedro Costa', school: 'pedro.costa@example.com', value: 250, active: true, phone: '47999636379' },
-  { id: '13', name: 'Maria Santos', school: 'maria.santos@example.com', value: 150, active: true, phone: '47999636379' },
-  { id: '14', name: 'Alex Pereira', school: 'alex.pereira@example.com', value: 200, active: false, phone: '47999636379' },
-  { id: '15', name: 'Jane Oliveira', school: 'jane.oliveira@example.com', value: 300, active: true, phone: '47999636379' },
-  { id: '16', name: 'Luana Lima', school: 'luana.lima@example.com', value: 450, active: false, phone: '47999636379' },
-  { id: '17', name: 'Carlos Lima', school: 'carlos.lima@example.com', value: 500, active: true, phone: '47999636379' },
-  { id: '18', name: 'Paula Santos', school: 'paula.santos@example.com', value: 350, active: false, phone: '47999636379' },
-  { id: '19', name: 'Ana Costa', school: 'ana.costa@example.com', value: 150, active: true, phone: '47999636379' },
-  { id: '20', name: 'Lucas Oliveira', school: 'lucas.oliveira@example.com', value: 120, active: true, phone: '47999636379' },
-];
+const users = []
 
 // Components
 import { SecondaryInput } from '../Inputs';
@@ -34,7 +13,15 @@ import { ModalEditUser } from '../ModalEditUser';
 // Utils
 import { formattedValue } from '../../utils/utils';
 
+// Database
+import { getAll } from '../../config/database'
+
+// Context
+import { useAuthContext } from '../../context/AuthContext'
+
 export function Search() {
+  const { user: dataUser } = useAuthContext()
+
   const [search, setSearch] = useState('');
   const [openModalSearch, setOpenModalSearch] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -42,6 +29,7 @@ export function Search() {
   const [showValue, setShowValue] = useState(false);
   const [showInactiveUser, setShowInactiveUser] = useState(false);
   const [user, setUser] = useState({});
+  const [users, setUsers] = useState([]);
 
   const filteredUsers = users.filter(user =>
     user.name 
@@ -79,9 +67,22 @@ export function Search() {
     setOpenModalEdit(false);
   }
 
-  function confirmActionEdit() {
+  function confirmActionEdit(user) {
     setOpenModalEdit(false);
   }
+
+  async function getAllUsers() {
+    try {
+      const response = await getAll(`${dataUser?.emailFormatted}/users/`)
+      setUsers(response)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getAllUsers();
+  }, [])
 
   function renderUser({ item }) {
     return (

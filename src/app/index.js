@@ -17,7 +17,7 @@ import SchoolBusGif from '../assets/gifs/school-bus.gif';
 import { useAuthContext } from '../context/AuthContext';
 
 export default function App() {
-  const { loginGoogle,  } = useAuthContext();
+  const { loginGoogle, user } = useAuthContext();
 
   const router = useRouter();
 
@@ -76,6 +76,14 @@ export default function App() {
     getVisibilityAsync();
 
   }, []);
+
+  useEffect(() => {
+
+    if (user?.email) {
+      router.push('/home')
+    }
+
+  }, [user])
 
   return (
     <View className='flex-1 bg-blue-400 pt-12'>

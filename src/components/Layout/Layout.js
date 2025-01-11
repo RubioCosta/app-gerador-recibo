@@ -2,18 +2,23 @@ import { useEffect } from 'react';
 import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar'
 import * as NavigationBar from 'expo-navigation-bar';
-import { useRouter } from 'expo-router';
+import { useRouter, useRootNavigationState } from 'expo-router';
 
 // Context
 import { useAuthContext } from '../../context/AuthContext'
 
 export function Layout({ children }) {
   const router = useRouter();
+  const rootNavigationState = useRootNavigationState();
   const { user } = useAuthContext()
 
   useEffect(() => {
-    if (!user?.email) useRouter().replace('/');
+    if (!user?.email && rootNavigationState?.key) {
+      router.push('/');
+    }
+  }, [ user, rootNavigationState ])
 
+  useEffect(() => {
     async function getVisibilityAsync() {
       await NavigationBar.setBackgroundColorAsync('#60a5fa')
     }

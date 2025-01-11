@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { View, Text } from 'react-native'
 import Toast from 'react-native-toast-message';
+import { v4 as uuidv4 } from 'uuid';
 
 // Components
 import { Input, SecondaryInput } from '../../components/Inputs'
@@ -9,7 +10,15 @@ import { ModalCreateUser } from '../../components/ModalCreateUser'
 import { Search as SearchUser } from '../../components/Search'
 import { Toggle } from '../../components/Toggle'
 
+// Database
+import { create } from '../../config/database'
+
+// Context
+import { useAuthContext } from '../../context/AuthContext'
+
 export default function userConfiguration() {
+  const { user: dataUser } = useAuthContext()
+
   const [name, setName] = useState('')
   const [school, setSchool] = useState('')
   const [phone, setPhone] = useState('')
@@ -35,11 +44,14 @@ export default function userConfiguration() {
     });
   };
 
-  async function handlerCreateUser() {
+  function confirmAction() {
     if (!String(name).trim()) return showToast('error', 'Aviso', 'Nome é obrigatório!');
     if (!school) return showToast('error', 'Aviso', 'Escola é obrigatório!');
     if (!phone) return showToast('error', 'Aviso', 'Telefone é obrigatório!');
     if (!value) return showToast('error', 'Aviso', 'Valor é obrigatório!');
+
+    setUser({ name, school, phone, value })
+
     setConfirmModal(true)
   }
 
@@ -47,6 +59,24 @@ export default function userConfiguration() {
     setConfirmModal(false)
   }
 
+  async function handlerCreateUser() {
+    try {
+      if (dataUser?.email) {
+        await create(`${dataUser?.emailFormatted}/users/${uuidv4()}`, { name, school, phone, value, active: true });
+        setConfirmModal(false);
+        setName('');
+        setSchool('');
+        setPhone('');
+        setValue('');
+        return
+      }
+
+      showToast('error', 'Aviso', 'Cadastro não realizado!');
+      setConfirmModal(false)
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
   return (
     <View className='bg-white flex-1'>
@@ -93,7 +123,7 @@ export default function userConfiguration() {
               colorButton='bg-white'
               colorText='text-blue-400'
               colorDescription='text-blue-400'
-              onPress={handlerCreateUser}
+              onPress={confirmAction}
               className='mb-2'
             />
           </View>
@@ -101,7 +131,7 @@ export default function userConfiguration() {
       </View>
       <SearchUser />
       <Toast />
-      <ModalCreateUser isOpen={confirmModal} cancelAction={cancelAction} user={user} />
+      <ModalCreateUser isOpen={confirmModal} cancelAction={cancelAction} user={user} confirmAction={handlerCreateUser} />
     </View>
   )
 }
