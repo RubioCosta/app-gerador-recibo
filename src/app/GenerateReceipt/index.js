@@ -14,7 +14,15 @@ import { Button } from '../../components/Buttons';
 // Utils
 import { convertDateFromBrazil } from '../../utils/dateFunctions';
 
+// Database
+import { getAll } from '../../config/database'
+
+// Context
+import { useAuthContext } from '../../context/AuthContext'
+
 export default function GenerateReceipt() {
+  const { user: dataUser } = useAuthContext();
+
   const [date, setDate] = useState(convertDateFromBrazil(new Date().toISOString().split('T')[0]));
   const [description, setDescription] = useState('Transporte Particular');
   const [isHalfValue, setIsHalfValue] = useState(true);
@@ -36,6 +44,8 @@ export default function GenerateReceipt() {
   async function generateReceipt() {
 
     if (loading) return;
+
+    const data = await getAll(`${dataUser?.emailFormatted}/users/`)
 
     if (data.length <= 0) return showToast('error', 'Aviso', 'Nenhuma pessoa ativa cadastrada!');
 

@@ -29,7 +29,7 @@ export function generateTemplateReceipt(day, month, year, description, isHalfVal
       <div class='main'>
   `
 
-  data.forEach((user) => {
+  data.forEach((user, index) => {
     html += `
       <div class='recibo'>
         <div class="area-recibo"">
@@ -37,11 +37,11 @@ export function generateTemplateReceipt(day, month, year, description, isHalfVal
             <div class="text-title">RECIBO:</div>
             <div class="N">
                 <label>N°</label>
-                <input type="text" value="${user.id}" readOnly class=" number browser-default" />
+                <input type="text" value="${index}" readOnly class=" number browser-default" />
             </div>
             <div class="valorN">
                 <label>VALOR:</label>
-                <input type="text" value="${formattedValue(isHalfValue ? (user.month_value/2).toFixed(2) : user.month_value)}" readOnly class="browser-default" />
+                <input type="text" value="${formattedValue(isHalfValue ? (user.value/2).toFixed(2) : user.value)}" readOnly class="browser-default" />
             </div>
           </div>
           <div class="area-recibo-corpo">
@@ -51,7 +51,7 @@ export function generateTemplateReceipt(day, month, year, description, isHalfVal
             </div>
             <div class="area-2">
                 <label>a quantia de</label>
-                <input type="text" value="${parseInt(user.month_value).toString().extenso()} Reais ${defaultValue}" readOnly class="browser-default" />
+                <input type="text" value="${parseInt(user.value).toString().extenso()} Reais ${defaultValue}" readOnly class="browser-default" />
             </div>
             <div class="area-hidden-1">
                 <div class="linha"></div>

@@ -2,6 +2,9 @@ const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
 const { withNativeWind } = require('nativewind/metro');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const config = getDefaultConfig(__dirname);
 
 module.exports = withNativeWind(config, {

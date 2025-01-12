@@ -27,7 +27,6 @@ async function getById(path) {
     const data = await get(dataRef);
 
     if (data.exists()) {
-      console.log(data.val())
       return data.val();
     }
 
