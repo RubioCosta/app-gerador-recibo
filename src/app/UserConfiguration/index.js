@@ -26,6 +26,8 @@ export default function userConfiguration() {
 
   const [user, setUser] = useState({})
 
+  const [newUser,setNewUser] = useState({})
+
   const [confirmModal, setConfirmModal] = useState(false)
 
   const schoolRef = useRef(null)
@@ -62,18 +64,33 @@ export default function userConfiguration() {
   async function handlerCreateUser() {
     try {
       if (dataUser?.email) {
-        await create(`${dataUser?.emailFormatted}/users/${uuidv4()}`, { name, school, phone, value, active: true });
+        const uuid = uuidv4(); 
+
+        const userData = {
+          name,
+          school,
+          phone,
+          value,
+          active: true
+        }
+
+        await create(`${dataUser?.emailFormatted}/users/${uuid}`, userData);
         setConfirmModal(false);
         setName('');
         setSchool('');
         setPhone('');
         setValue('');
+        setNewUser({
+          id: uuid,
+          ...userData
+        })
         return
       }
 
       showToast('error', 'Aviso', 'Cadastro não realizado!');
       setConfirmModal(false)
     } catch(err) {
+      setNewUser({})
       console.log(err)
     }
   }
@@ -129,7 +146,7 @@ export default function userConfiguration() {
           </View>
         </Toggle>
       </View>
-      <SearchUser />
+      <SearchUser newUser={newUser} />
       <Toast />
       <ModalCreateUser isOpen={confirmModal} cancelAction={cancelAction} user={user} confirmAction={handlerCreateUser} />
     </View>

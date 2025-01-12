@@ -3,7 +3,7 @@ import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 // Components
-import { SecondaryInput } from '../Inputs';
+import { SecondaryInput, ToggleInput } from '../Inputs';
 import { Button as ButtonEdit } from '../Buttons';
 
 export function ModalEditUser({ isOpen, confirmAction, cancelAction, user = {} }) {
@@ -11,12 +11,14 @@ export function ModalEditUser({ isOpen, confirmAction, cancelAction, user = {} }
   const [school, setSchool] = useState('')
   const [phone, setPhone] = useState('')
   const [monetaryValue, setMonetaryValue] = useState('')
+  const [active, setActive] = useState(false)
 
   useEffect(() => {
     setName(user.name);
     setSchool(user.school);
     setPhone(user.phone);
     setMonetaryValue(String(user.value));
+    setActive(user.active)
   }, []);
 
   const schoolRef = useRef(null)
@@ -75,11 +77,17 @@ export function ModalEditUser({ isOpen, confirmAction, cancelAction, user = {} }
                 onChange={(e) => setMonetaryValue(e.nativeEvent.text)}
                 className='mb-4'
               />
+              <ToggleInput 
+                value={active}
+                onChange={(e) => setActive(e)}
+                placeholder={`${active ? 'Usuário Ativo' : 'Usuário Inativo'}`}
+                className='mb-3'
+              />
               <ButtonEdit 
                 description='Salvar Alteração'
                 colorButton='bg-blue-400'
                 colorDescription='text-white'
-                onPress={confirmAction}
+                onPress={() => confirmAction({ name, school, phone, value: monetaryValue, active, id: user.id })}
                 className='mb-2'
               />
             </View>

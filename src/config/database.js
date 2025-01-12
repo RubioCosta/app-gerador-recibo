@@ -1,5 +1,5 @@
 import { db } from './firebase'
-const { ref, get, set, remove} = require('firebase/database');
+const { ref, get, set, remove, update} = require('firebase/database');
 
 //create('/user/124', { valor: 124 })
 async function create(path, data) {
@@ -8,6 +8,15 @@ async function create(path, data) {
     await set(dataRef, data);
   } catch(err) {
     throw err
+  }
+}
+
+async function edit(path, data) {
+  try {
+    const dataRef = ref(db, path);
+    await update(dataRef, data);
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -68,5 +77,6 @@ module.exports = {
   create,
   getById,
   getAll,
-  exclude
+  exclude,
+  edit
 }
